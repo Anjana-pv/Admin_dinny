@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.deepPurple,
+          primarySwatch: Colors.grey
         ),
         
       ),
-      home: const ScreenHome(), 
+      home:  ScreenHome(profileImage: "", restaurantName: "", resturentName: '', ), 
     );
   }
 }

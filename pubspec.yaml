@@ -46,6 +46,11 @@ dependencies:
   webview_flutter: ^4.4.2
   firebase_core: ^2.24.0
   cloud_firestore: ^4.13.6 
+  url_launcher: ^6.0.14
+  cached_network_image: ^3.1.0
+  syncfusion_flutter_pdfviewer: ^20.4.44
+  firebase_database: ^10.1.2
+  
   
   
 
@@ -75,7 +80,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assest/image_10-removebg.png
+     - assest/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

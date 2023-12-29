@@ -1,4 +1,6 @@
-import 'package:admin_dinny/flutter_fuction/firebase_fuctions.dart';
+import 'dart:developer';
+
+import 'package:admin_dinny/repositery/firebase_fuctions.dart';
 import 'package:admin_dinny/screen/approval_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +31,13 @@ class NotificationScreen extends StatelessWidget {
                   children: snapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                     Timestamp? timestamp = data['timestamp'] as Timestamp?;
+                    String id=document.id;
+                    
                     return
                      GestureDetector(
                       onTap: (){
-                        Get.to( ApprovalScreen());
+                        log(id);
+                        Get.to( ApprovalScreen(id: id,),arguments: data);
                       },
                        child: Card(
                         
@@ -64,7 +69,7 @@ class NotificationScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       capitalize(data['restaurantName'] ?? ''),
-                                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(height: 8.0),
                                     // Text(
@@ -74,10 +79,10 @@ class NotificationScreen extends StatelessWidget {
                                      if (timestamp != null)
                                       Text(
                                         "Time: ${timestamp.toDate().toString()}",
-                                        style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                                        style: const TextStyle(fontSize: 14.0, color: Colors.grey),
                                       ),
                                     if (timestamp == null)
-                                      Text(
+                                      const Text(
                                         "Time: N/A",
                                         style: TextStyle(fontSize: 14.0, color: Colors.grey),
                                       ),
