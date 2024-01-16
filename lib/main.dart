@@ -1,4 +1,5 @@
-import 'package:admin_dinny/screen/home_screen.dart';
+import 'package:admin_dinny/view/login.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,8 +10,10 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget { 
-  const MyApp({super.key,});
+class MyApp extends StatelessWidget {
+  const MyApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +21,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.grey
-        ),
-        
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey),
       ),
-      home:  ScreenHome(profileImage: "", restaurantName: "", resturentName: '', ), 
+      home: const LoginScreen(),
     );
   }
 }

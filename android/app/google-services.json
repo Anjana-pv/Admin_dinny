@@ -51,9 +51,81 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:121795476289:android:b6b9b740fed1c9fd74bfc0",
+        "android_client_info": {
+          "package_name": "in.flutterverse.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121795476289-f4qo3fec6felhoh9ackjejjaecvo4vec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7g6nb8Fgo33gB139SJ-6mm9JfUY6awhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121795476289-f4qo3fec6felhoh9ackjejjaecvo4vec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "121795476289-ie1jtk2tfnfb72i6ugah45ifrra85fup.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.admindinny"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:121795476289:android:2f81b3f9fef6bbfb74bfc0",
         "android_client_info": {
           "package_name": "in.flutterverse.admin_dinny"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121795476289-f4qo3fec6felhoh9ackjejjaecvo4vec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7g6nb8Fgo33gB139SJ-6mm9JfUY6awhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121795476289-f4qo3fec6felhoh9ackjejjaecvo4vec.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "121795476289-ie1jtk2tfnfb72i6ugah45ifrra85fup.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.admindinny"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121795476289:android:cfe18a9b2af9ead574bfc0",
+        "android_client_info": {
+          "package_name": "in.flutterverse.our_dinny"
         }
       },
       "oauth_client": [

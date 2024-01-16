@@ -1,29 +1,27 @@
-
-import 'dart:developer';
-import 'package:admin_dinny/repositery/functions_fiel.dart';
-import 'package:admin_dinny/reusable_widgets/reusing_text.dart';
-import 'package:admin_dinny/screen/home_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:admin_dinny/controller/repositery/firebase_fuctions.dart';
+import 'package:admin_dinny/controller/repositery/image_fuctions.dart';
+import 'package:admin_dinny/common/customappbar.dart';
+import 'package:admin_dinny/common/reusing_text.dart';
+import 'package:admin_dinny/view/home_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ApprovalScreen extends StatelessWidget {
-  const ApprovalScreen({Key? key, required this.id}) : super(key: key);
+  ApprovalScreen({Key? key, required this.id}) : super(key: key);
   final String id;
+
+  final AdminController adminController = AdminController();
 
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic>? data = Get.arguments as Map<String, dynamic>?;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 247, 249, 247),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 50, 73, 51),
-        title: const Text(
-          "Approval",
-          style: TextStyle(color: Colors.white),
-        ),
+      appBar: CustomAppBar(
+        title: "Request",
+        icons: false,
+        icon: true,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -31,16 +29,14 @@ class ApprovalScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 40),
-                child: Container(
+                child: CachedNetworkImage(
+                  imageUrl: data?['profileImage'] ?? '',
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator.adaptive(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
                   height: 159,
                   width: 329,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    image: DecorationImage(
-                      image: NetworkImage(data?['profileImage'] ?? ''),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                 ),
               ),
               const SizedBox(
@@ -70,7 +66,7 @@ class ApprovalScreen extends StatelessWidget {
                     buildTextRow("Owner Name             :", data?['owner']),
                     buildTextRow("Type of Restaurant  :", data?['type']),
                     buildTextRow(
-                        "Pincode                     :", data?['pinCode']),
+                        "City                            :", data?['city']),
                     buildTextRow("Working Hours         :",
                         data?['workingHours']?.toString()),
                     buildTextRow("Total Seats                :",
@@ -109,18 +105,14 @@ class ApprovalScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        adminController.addToAcceptedCollection(data);
                         Get.to(
-                          () => ScreenHome(
-                            profileImage: data?['profileImage'],
-                            restaurantName: data?['restaurantName'],
-                            resturentName: '',
-                          ),
+                          () => ScreenHome(),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            255, 4, 163, 63), // Change the color as needed
+                        backgroundColor: const Color.fromARGB(255, 4, 163, 63),
                       ),
                       child: const Text(
                         "Accept",
@@ -143,11 +135,12 @@ class ApprovalScreen extends StatelessWidget {
                                 child: const Text("Cancel"),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  log(id);
-                                 deleteDataFromFirebase(id);
-                                Get.back();
-                                Get.to(ScreenHome(profileImage: "", restaurantName: "", resturentName: ""));
+                                onPressed: () async {
+                                  print('hello');
+                                 adminController.addrejected(data);
+                                  // Get.to(RejectionScreen(
+                                  //   userEmail: data?['emailController'] ?? '',
+                                  // ));
                                 },
                                 child: const Text("Confirm"),
                               ),
@@ -170,36 +163,4 @@ class ApprovalScreen extends StatelessWidget {
       ),
     );
   }
-
-  void openPdfDocument(String? pdfUrl) async {
-    if (pdfUrl != null) {
-      await Get.to(
-        () => Scaffold(
-          appBar: AppBar(title: const Text('PDF Document')),
-          body: SfPdfViewer.network(
-            pdfUrl,
-            canShowPaginationDialog: false,
-          ),
-        ),
-      );
-    } else {
-      print('PDF URL not available');
-    }
-  }
- Future <void> deleteDataFromFirebase(String? documentId) async{
- try {
-      
-  if (documentId != null) {
-   await  FirebaseFirestore.instance
-          .collection('clients') 
-          .doc(documentId)
-          .delete();
-  } else {
-    print('Document ID not available');
-  }
- } catch (e) {
-   log('$e');
- }
-}
-
 }
