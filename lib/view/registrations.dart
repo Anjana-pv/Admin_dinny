@@ -1,14 +1,15 @@
 import 'dart:developer';
 import 'package:admin_dinny/controller/repositery/firebase_fuctions.dart';
 import 'package:admin_dinny/common/customappbar.dart';
+import 'package:admin_dinny/view/home_screen.dart';
 import 'package:admin_dinny/view/request_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegistratinsScreen extends StatelessWidget {
-  const RegistratinsScreen({super.key});
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,14 @@ class RegistratinsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-          title: 'Registrations', 
-          icons: false, 
-          icon: true),
+        title: 'Registrations',
+        icons: false,
+        icon: true,
+
+        onDrawerIconPressed: () {
+          Get.to(ScreenHome());
+        },
+      ),
       body: StreamBuilder(
         stream: sampleController.getDatas(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -38,9 +44,9 @@ class RegistratinsScreen extends StatelessWidget {
 
                     return GestureDetector(
                       onTap: () {
-                     sampleController.deleteDataFromFirebase(id);
-                         log(id);
-                         print('$id');
+                        sampleController.deleteDataFromFirebase(id);
+                        log(id);
+                        print('$id');
                         Get.to(
                             ApprovalScreen(
                               id: id,
@@ -61,9 +67,9 @@ class RegistratinsScreen extends StatelessWidget {
                               CachedNetworkImage(
                                 imageUrl: data['profileImage'] ?? '',
                                 placeholder: (context, url) =>
-                                    const CircularProgressIndicator.adaptive(), 
-                                errorWidget: (context, url, error) => const Icon(Icons
-                                    .error),
+                                    const CircularProgressIndicator.adaptive(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                                 fit: BoxFit.cover,
                                 height: 100,
                                 width: 100,

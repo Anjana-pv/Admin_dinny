@@ -13,7 +13,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AdminController adminController = AdminController();
+    
+    AdminController adminController =Get.put( AdminController());
+    AuthencationController autherndication=Get.put( AuthencationController());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -74,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock),
                         labelText: 'Password',
-                        suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                        // suffixIcon: Icon(Icons.remove_red_eye_outlined),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) =>
@@ -87,12 +89,13 @@ class LoginScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState?.validate() ?? false) {
-                        bool isAuthenticated = await authenticateUser(
+                        bool isAuthenticated = await autherndication.authenticateUser(
                           adminController.username.text,
                           adminController.password.text,
                         );
 
                         if (isAuthenticated) {
+                         
                           Get.to(ScreenHome());
                         } else {
                           Get.snackbar(

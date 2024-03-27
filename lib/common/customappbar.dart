@@ -6,12 +6,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool icons;
   final bool icon;
+  final VoidCallback onDrawerIconPressed;
   
 
-  CustomAppBar({
+  const CustomAppBar({
     required this.title,
      required this.icons,
-      required this.icon
+      required this.icon,
+      required this.onDrawerIconPressed,
       
   });
 
@@ -22,9 +24,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: const Color.fromARGB(255, 50, 73, 51),
       title: Text(title, style: const TextStyle(color: Colors.white)),
      leading: icon
-  ?   IconButton(onPressed: (){
-      Get.back();
-     },
+  ?   IconButton
+  (onPressed: onDrawerIconPressed,
+    
+     
       icon: const Icon(Icons.arrow_back,color: Colors.white,)
       
       ):const Icon(Icons.menu,color: Colors.white,),
@@ -36,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ? [
               IconButton(
                 onPressed: () {
-                  Get.to( const RegistratinsScreen());
+                  Get.to( const RegistrationScreen());
                 },
                 icon: const Icon(Icons.notifications_none_outlined, color: Colors.white),
               ),

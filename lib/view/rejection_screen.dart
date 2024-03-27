@@ -15,7 +15,7 @@ class RejectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AdminController rejectiontext = AdminController();
+    // AdminController rejectiontext = AdminController();
      
     return Scaffold(
       appBar: AppBar(

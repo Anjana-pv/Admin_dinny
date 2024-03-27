@@ -22,6 +22,9 @@ class ApprovalScreen extends StatelessWidget {
         title: "Request",
         icons: false,
         icon: true,
+         onDrawerIconPressed: () { 
+          Get.back();
+         },
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -48,54 +51,58 @@ class ApprovalScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                     color: const Color.fromARGB(107, 171, 174, 171)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 20.0),
-                      child: Text(
-                        "Restaurant Details",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    buildTextRow(
-                        "Restaurant Name     :", data?['restaurantName']),
-                    buildTextRow("Owner Name             :", data?['owner']),
-                    buildTextRow("Type of Restaurant  :", data?['type']),
-                    buildTextRow(
-                        "City                            :", data?['city']),
-                    buildTextRow("Working Hours         :",
-                        data?['workingHours']?.toString()),
-                    buildTextRow("Total Seats                :",
-                        data?['seatCount']?.toString()),
-                    buildTextRow(
-                        "Address                     :", data?['address']),
-                    const SizedBox(height: 60),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            openPdfDocument(data?['pdf']);
-                          },
-                          child: const Text("Documents",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20.0, left: 20.0),
+                        child: Text(
+                          "Restaurant Details",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        GestureDetector(
-                            onTap: () {
-                              showMenuImages(data?['menuCards']);
+                      ),
+                      const SizedBox(height: 30),
+                      buildTextRow(
+                          "Restaurant Name     :", data?['restaurantName']),
+                      buildTextRow("Owner Name             :", data?['owner']),
+                      buildTextRow("Type of Restaurant  :", data?['type']),
+                      buildTextRow(
+                          "City                            :", data?['city']),
+                      buildTextRow("Starting time            :",
+                          data?['startingtime']?.toString()),
+                           buildTextRow("Ending time              :",
+                          data?['endingtime']?.toString()),
+                      buildTextRow("Total Seats                :",
+                          data?['seatCount']?.toString()),
+                      buildTextRow(
+                          "Address                     :", data?['address']),
+                      const SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              openPdfDocument(data?['pdf']);
                             },
-                            child: const Text("Images",
+                            child: const Text("Documents",
                                 style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold))),
-                      ],
-                    ),
-                  ],
+                                    fontSize: 17, fontWeight: FontWeight.bold)),
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                showMenuImages(data?['menuCards']);
+                              },
+                              child: const Text("Images",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold))),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -138,9 +145,8 @@ class ApprovalScreen extends StatelessWidget {
                                 onPressed: () async {
                                   print('hello');
                                  adminController.addrejected(data);
-                                  // Get.to(RejectionScreen(
-                                  //   userEmail: data?['emailController'] ?? '',
-                                  // ));
+                                 Get.offNamed("/home");
+                                 
                                 },
                                 child: const Text("Confirm"),
                               ),
@@ -152,7 +158,7 @@ class ApprovalScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 239, 13, 13),
                     ),
-                    child: const Text("Reject",
+                    child: const Text("Delete",
                         style: TextStyle(color: Colors.white)),
                   )
                 ],

@@ -1,23 +1,38 @@
 import 'package:admin_dinny/controller/repositery/firebase_fuctions.dart';
-import 'package:admin_dinny/common/customappbar.dart';
+import 'package:admin_dinny/view/manubar_screeen.dart';
+import 'package:admin_dinny/view/registrations.dart';
+import 'package:admin_dinny/view/request_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ScreenHome extends StatelessWidget {
-   ScreenHome({
+  ScreenHome({
     super.key,
   });
-final AdminController userController = AdminController(); 
+  final AdminController userController = AdminController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        title: "Admin",
-        icons: true,
-        icon: false,
-      ),
+      drawer: const NavBar(),
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 50, 73, 51),
+          title: const Text(
+            "Admin",
+            style: TextStyle(color: Colors.white),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(const RegistrationScreen());
+              },
+              icon: const Icon(Icons.notifications_none_outlined,
+                  color: Colors.white),
+            ),
+          ]),
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Column(
@@ -45,10 +60,11 @@ final AdminController userController = AdminController();
                 ],
               ),
             ),
-            const SizedBox(height: 10,),
-
-           Expanded(
-              child:  StreamBuilder<QuerySnapshot>(
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
                 stream: userController.getAccepted(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -71,7 +87,7 @@ final AdminController userController = AdminController();
                       snapshot.data!.docs;
 
                   if (documents.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Approved list is empty',
                         style: TextStyle(
@@ -85,68 +101,71 @@ final AdminController userController = AdminController();
                   return ListView.builder(
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
-                      Map<String, dynamic> data = documents[index].data()
-                          as Map<String, dynamic>;
+                      Map<String, dynamic> data =
+                          documents[index].data() as Map<String, dynamic>;
 
-                      return Card(
-                        elevation: 4.0,
-                        margin: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 450,
-                          height: 70,
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 204, 220, 205),
-                          ),
-                           child: Row(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: data['profileImage'] ?? '',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator.adaptive(), 
-                                errorWidget: (context, url, error) => const Icon(Icons
-                                    .error),
-                                fit: BoxFit.cover,
-                                height: 100,
-                                width: 100,
-                              ),
-                              const SizedBox(width: 20.0),
-                              Expanded(
-                          
-                          child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        capitalize(
-                                            data['restaurantName'] ?? ''),
-                                        style: const TextStyle(
-                                            fontSize: 17.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(capitalize(data['type'] ?? ''),
-                                          style: const TextStyle(
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold)),
-                                      const SizedBox(
-                                        height: 5
-                                      ),
-                                      Text(capitalize(data['city'] ?? ''),
-                                          style: const TextStyle(
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.normal))
-                                    ],
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(ApprovalScreen(id: documents[index].id),
+                              arguments: data);
+                        },
+                        child: Card(
+                            elevation: 4.0,
+                            margin: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: 450,
+                                height: 70,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 204, 220, 205),
+                                ),
+                                child: Row(children: [
+                                  CachedNetworkImage(
+                                    imageUrl: data['profileImage'] ?? '',
+                                    placeholder: (context, url) => const Center(
+                                      child:
+                                          CircularProgressIndicator.adaptive(),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
                                   ),
-                                
-                          ),
-                        ),
-                            ]
-                           )
-                        )
+                                  const SizedBox(width: 20.0),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            capitalize(
+                                                data['restaurantName'] ?? ''),
+                                            style: const TextStyle(
+                                                fontSize: 17.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(capitalize(data['type'] ?? ''),
+                                              style: const TextStyle(
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.bold)),
+                                          const SizedBox(height: 5),
+                                          Text(capitalize(data['city'] ?? ''),
+                                              style: const TextStyle(
+                                                  fontSize: 12.0,
+                                                  fontWeight:
+                                                      FontWeight.normal))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ]))),
                       );
                     },
                   );
