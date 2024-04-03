@@ -20,7 +20,6 @@ class RegistrationScreen extends StatelessWidget {
         title: 'Registrations',
         icons: false,
         icon: true,
-
         onDrawerIconPressed: () {
           Get.to(ScreenHome());
         },
@@ -28,8 +27,24 @@ class RegistrationScreen extends StatelessWidget {
       body: StreamBuilder(
         stream: sampleController.getDatas(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assest/images/no data.jpg',
+                    width: 150,
+                    height: 150,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'No new registrations',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            );
           }
           return Column(
             children: [
@@ -66,8 +81,9 @@ class RegistrationScreen extends StatelessWidget {
                             children: [
                               CachedNetworkImage(
                                 imageUrl: data['profileImage'] ?? '',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator.adaptive(),
+                                placeholder: (context, url) => const Center(
+                                    child:
+                                        CircularProgressIndicator.adaptive()),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
                                 fit: BoxFit.cover,

@@ -62,7 +62,7 @@ class AdminPrivacyPolicyScreen extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           Text(
-            'If you have any questions about this Privacy Policy, please contact us at contact@ourdinny.com.',
+            'If you have any questions about this Privacy Policy, please contact us at ourdinnyofficial@gmail.com.',
           ),
           SizedBox(height: 16.0),
           Text(

@@ -35,13 +35,13 @@ class NavBar extends StatelessWidget {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Profile'),
-            onTap: () {
-            Get.to(const ProfileScreen());
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.person),
+          //   title: const Text('Profile'),
+          //   onTap: () {
+          //   Get.to(const ProfileScreen());
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.share),
             title: const Text('Share App'),

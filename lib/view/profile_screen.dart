@@ -9,6 +9,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProfileController profile = Get.put(ProfileController());
+
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Obx(() => StreamBuilder(
@@ -17,15 +18,17 @@ class ProfileScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const SizedBox(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: Text("No Intenet"),
               ),
             );
           } else if (snapshot.hasError) {
             return Text("Error:${snapshot.error}");
           } else if (snapshot.hasData) {
-            final admindata = snapshot.data!.data() as Map<String, dynamic>;
-            usernameController.text = admindata['username'];
-            passwordController.text = admindata['password'];
+            final admindata = snapshot.data!.data() ;
+           
+            usernameController.text = admindata?['username']??'';
+            passwordController.text = admindata?['password']??'';
+            
           }
 
           return Scaffold(
