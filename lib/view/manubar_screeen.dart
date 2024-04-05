@@ -1,7 +1,5 @@
 import 'package:admin_dinny/controller/auth/auth.dart';
 import 'package:admin_dinny/view/privacy_polices.dart';
-import 'package:admin_dinny/view/profile_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';

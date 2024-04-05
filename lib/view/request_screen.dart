@@ -35,7 +35,7 @@ class ApprovalScreen extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: data?['profileImage'] ?? '',
                   placeholder: (context, url) =>
-                      const CircularProgressIndicator.adaptive(),
+                      Center(child: const CircularProgressIndicator.adaptive()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   fit: BoxFit.cover,
                   height: 159,
@@ -46,8 +46,9 @@ class ApprovalScreen extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: 400,
-                width: 329,
+               height: MediaQuery.of(context).size.height * 0.5, 
+
+  width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                     color: const Color.fromARGB(107, 171, 174, 171)),
@@ -145,7 +146,8 @@ class ApprovalScreen extends StatelessWidget {
                                 onPressed: () async {
                                   print('hello');
                                  adminController.addrejected(data);
-                                 Get.offNamed("/home");
+                                 adminController.deleteDataFromFirebase(id);
+                                 Get.offNamed("/HomeScreen");
                                  
                                 },
                                 child: const Text("Confirm"),
