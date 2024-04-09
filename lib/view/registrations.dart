@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:admin_dinny/controller/repositery/firebase_fuctions.dart';
 import 'package:admin_dinny/common/customappbar.dart';
 import 'package:admin_dinny/view/home_screen.dart';
-import 'package:admin_dinny/view/request_screen.dart';
+import 'package:admin_dinny/view/approval_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -56,10 +56,11 @@ class RegistrationScreen extends StatelessWidget {
                         document.data() as Map<String, dynamic>;
                     // Timestamp? timestamp = data['timestamp'] as Timestamp?;
                     String id = document.id;
+                    
 
                     return GestureDetector(
                       onTap: () {
-                        sampleController.deleteDataFromFirebase(id);
+                          sampleController.deleteData(id);
                         log(id);
                         print('$id');
                         Get.to(

@@ -12,6 +12,7 @@ class ApprovalScreen extends StatelessWidget {
   final String id;
 
   final AdminController adminController = AdminController();
+   final sampleController = Get.put(AdminController());
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +146,9 @@ class ApprovalScreen extends StatelessWidget {
                               TextButton(
                                 onPressed: () async {
                                   print('hello');
+                                  
+                                 sampleController.deleteDataFromFirebase(id);
                                  adminController.addrejected(data);
-                                 adminController.deleteDataFromFirebase(id);
                                  Get.offNamed("/HomeScreen");
                                  
                                 },

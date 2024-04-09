@@ -9,7 +9,7 @@ class AdminController extends GetxController {
 TextEditingController username=TextEditingController();
 TextEditingController password=TextEditingController();
 TextEditingController rejection=TextEditingController();
-
+ List<String> approvedIds = [];
 
    final db =FirebaseFirestore.instance;
   
@@ -37,21 +37,30 @@ Stream<QuerySnapshot> getAccepted()  {
   final acceptStream = accepted.snapshots();
   return acceptStream;
 }
+Future<bool> isIdExists(String id) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('approvedOne')
+        .where('id', isEqualTo: id)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
 
   // adding accepted------------------------
   Future<void> addToAcceptedCollection(Map<String, dynamic>? data) async {
- 
     if (data != null) {
       try {
-        await FirebaseFirestore.instance
-            .collection('approvedOne')
-            .add(data);          
+        String id = data['id']; // Assuming the ID field is named 'id'
+        bool idExists = await isIdExists(id);
+        if (!idExists) {
+          await FirebaseFirestore.instance
+              .collection('approvedOne')
+              .add(data);
+        }
       } catch (error) {
-         print('Error adding to accepted_clients collection: $error');
+        print('Error adding to accepted_clients collection: $error');
         rethrow;
       }
-    } else {
-    const CircularProgressIndicator();
     }
   }
 
@@ -74,6 +83,18 @@ Future<void> addrejected(Map<String, dynamic>? data) async {
       
   if (documentId != null) {
    await  FirebaseFirestore.instance
+          .collection('approvedOne') 
+          .doc(documentId)
+          .delete();
+  } else {
+    print('Document ID not available');
+  }
+
+ }
+  Future <void> deleteData(String? documentId) async{
+      
+  if (documentId != null) {
+   await  FirebaseFirestore.instance
           .collection('clientdetail') 
           .doc(documentId)
           .delete();
@@ -83,25 +104,61 @@ Future<void> addrejected(Map<String, dynamic>? data) async {
 
  }
 //  get only email id from collection----------------------------
- Future<String> getUserEmail(String id) async {
+
+  Future<List<String>> getApprovedIds() async {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('clientdetail')
-          .where('id', isEqualTo: id)
+          .collection('approvedOne')
           .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs[0]['emailController'] ?? '';
-      } else {
-        print('User not found with id: $id');
-        return '';
-      }
+    List<String> ids = querySnapshot.docs.map((doc) => doc.id).toList();
+       approvedIds = ids; 
+      return ids;
+    
     } catch (error) {
-      print('Error retrieving user email: $error');
-      return '';
+      print('Error retrieving approved IDs: $error');
+      return [];
     }
   }
+   bool isIdApproved(String id) {
+    
+    return approvedIds.contains(id);
+  }
+
+
+final CollectionReference _approvedCollection =FirebaseFirestore.instance.collection('approvedOne');
+
+  final CollectionReference _rejectedCollection =FirebaseFirestore.instance.collection('rejectedOne');
+
+  Future<bool>isApproved(String id) async {
+    try {
+      final DocumentSnapshot document =
+          await _approvedCollection.doc(id).get();
+      return document.exists;
+    } catch (e) {
+      print('Error checking approval status: $e');
+      return false;
+    }
+  }
+
+  Future<bool> isIdRejected(String id) async {
+    try {
+      final DocumentSnapshot document =
+          await _rejectedCollection.doc(id).get();
+      return document.exists;
+    } catch (e) {
+      print('Error checking rejection status: $e');
+      return false;
+    }
+  }
+  Future<bool> Approved(String id) {
+    return isApproved(id);
+  }
+  Future<bool> Rejected(String id) {
+    return isIdRejected(id);
+  }
+
 }
+
 
  
     

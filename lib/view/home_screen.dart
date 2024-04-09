@@ -1,7 +1,7 @@
 import 'package:admin_dinny/controller/repositery/firebase_fuctions.dart';
 import 'package:admin_dinny/view/manubar_screeen.dart';
 import 'package:admin_dinny/view/registrations.dart';
-import 'package:admin_dinny/view/request_screen.dart';
+import 'package:admin_dinny/view/approval_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
